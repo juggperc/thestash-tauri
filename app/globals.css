@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-mono;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-foreground;
+  }
+  
+  /* Range input styling */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+  }
+  
+  input[type="range"]::-webkit-slider-track {
+    @apply bg-secondary h-1;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    @apply bg-foreground w-3 h-3 border-2 border-background;
+    cursor: pointer;
+  }
+  
+  input[type="range"]::-moz-range-track {
+    @apply bg-secondary h-1;
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    @apply bg-foreground w-3 h-3 border-2 border-background;
+    cursor: pointer;
+  }
+  
+  /* Select styling */
+  select {
+    cursor: pointer;
+  }
+  
+  select option {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Mobile-first: audio player always at left-0 on mobile */
+@media (max-width: 768px) {
+  .audio-player {
+    left: 0 !important;
+  }
+}
+
+/* Enhanced animations */
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: hsl(0 0% 14%);
+  }
+  50% {
+    border-color: hsl(0 0% 0%);
+  }
+}
+
+/* Focus styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+}
+
+/* 3D logo animation */
+.logo-3d {
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+/* Electron window drag region */
+.electron-drag-region {
+  -webkit-app-region: drag;
+  cursor: move;
+}
+
+/* Prevent dragging on interactive elements in drag regions */
+.electron-drag-region button,
+.electron-drag-region input,
+.electron-drag-region a,
+.electron-drag-region select,
+.electron-drag-region [role="button"] {
+  -webkit-app-region: no-drag;
+  cursor: default;
+}
+
+/* Electron app specific styles */
+body.electron-app {
+  padding-top: 0;
+}
+
+body.electron-app main {
+  padding-top: 0;
+}
+
+/* Top drag region for Electron */
+.electron-drag-region {
+  -webkit-app-region: drag;
+}
+
+.electron-no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* Make entire top area draggable in Electron */
+@media screen {
+  body.electron-app > main {
+    position: relative;
+  }
+  
+  body.electron-app > main::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    -webkit-app-region: drag;
+    z-index: 10000;
+    pointer-events: auto;
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "name": "the-stash-electron",
+  "version": "0.1.0",
+  "description": "the stash - desktop app",
+  "main": "main.js",
+  "author": "the stash",
+  "scripts": {
+    "start": "electron .",
+    "prebuild": "node verify-build.js && node copy-standalone.js && ./bundle-node.sh",
+    "prebuild:mac": "node verify-build.js && node copy-standalone.js && ./bundle-node.sh",
+    "prebuild:win": "node verify-build.js && node copy-standalone.js",
+    "prebuild:linux": "node verify-build.js && node copy-standalone.js",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.thestash.app",
+    "productName": "the stash",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "ipc-handlers.js",
+      ".next/**/*",
+      "../.next/static/**/*",
+      "../public/**/*"
+    ],
+    "asarUnpack": [
+      ".next/**/*",
+      "../.next/static/**/*",
+      "node-bundle/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "node-bundle/node-arm64",
+        "to": "node-arm64",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "node-bundle/node-x64",
+        "to": "node-x64",
+        "filter": ["**/*"]
+      }
+    ],
+    "extraMetadata": {
+      "main": "main.js"
+    },
+    "mac": {
+      "category": "public.app-category.music",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "../build/icon.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "../public/icon-512.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "../public/icon-512.png"
+    }
+  }
+}
+
